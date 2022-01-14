@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 function BookmarkEditForm() {
+  const URL = process.env.REACT_APP_API_URL;
   let { index } = useParams();
+  // useParams GRABS REACT ROUTER PARAMS
+  // GRABS NAVIGATE FUNCTION FROM REACT ROUTER
+  const navigate = useNavigate();
 
   const [bookmark, setBookmark] = useState({
     name: "",
@@ -11,6 +16,8 @@ function BookmarkEditForm() {
     description: "",
     isFavorite: false,
   });
+  // CALL setBookmark W/BOOKMARK AT CURRENT INDEX POSITION
+  // setBookmark({name: "MDN", url: "www.mdn.com", category: "educational", description: "", isFavorite: false})
 
   const handleTextChange = (event) => {
     setBookmark({ ...bookmark, [event.target.id]: event.target.value });
@@ -19,11 +26,19 @@ function BookmarkEditForm() {
   const handleCheckboxChange = () => {
     setBookmark({ ...bookmark, isFavorite: !bookmark.isFavorite });
   };
+  // GET/MAKE API CALL USING INDEX FROM ROUTER
+  useEffect(() => {
+    axios.get(`${URL}/bookmarks/${index}`).then((response) => {
+      setBookmark(response.data);
+    });
+  }, [URL, index]);
 
-  useEffect(() => {}, []);
-
+  // ON SUBMIT, MAKE A PUT REQ. ONLY BOOKMARK AT THAT INDEX POSITION SHOULD BE UPDATED IN API THEN NAVIGATE TO BOOKMARK THAT REFLECT CHANGES
   const handleSubmit = (event) => {
     event.preventDefault();
+    axios.put(`${URL}/bookmarks/${index}`, bookmark).then(() => {
+      navigate(`/bookmarks/${index}`);
+    });
   };
   return (
     <div className="Edit">
