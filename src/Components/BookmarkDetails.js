@@ -14,7 +14,7 @@ function BookmarkDetails() {
     axios.get(`${URL}/bookmarks/${index}`).then((response) => {
       setBookmark(response.data);
     });
-  }, [URL, index]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleDelete = () => {};
   return (

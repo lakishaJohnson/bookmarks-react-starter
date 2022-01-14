@@ -31,7 +31,7 @@ function BookmarkEditForm() {
     axios.get(`${URL}/bookmarks/${index}`).then((response) => {
       setBookmark(response.data);
     });
-  }, [URL, index]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ON SUBMIT, MAKE A PUT REQ. ONLY BOOKMARK AT THAT INDEX POSITION SHOULD BE UPDATED IN API THEN NAVIGATE TO BOOKMARK THAT REFLECT CHANGES
   const handleSubmit = (event) => {

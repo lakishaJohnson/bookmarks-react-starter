@@ -14,7 +14,7 @@ function Bookmarks() {
       console.log(response);
       console.log(response.data);
     });
-  }, [URL]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   // EMPTY ARRAY IS NEEDED TO KEEP FROM MULTIPLE RENDERINGS
 
   // useEffect(() => {
